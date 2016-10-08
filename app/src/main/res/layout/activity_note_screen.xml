@@ -16,7 +16,7 @@
         android:keepScreenOn="true"
         android:text="@string/note_content"
         android:textColor="@android:color/black"
-        android:textSize="500sp"
+        android:textSize="350sp"
         android:textStyle="bold" />
 
     <!-- This FrameLayout insets its children based on system windows using
@@ -30,22 +30,32 @@
             android:id="@+id/fullscreen_content_controls"
             style="?metaButtonBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="91dp"
             android:layout_gravity="bottom|center_horizontal"
             android:background="@color/black_overlay"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             tools:ignore="UselessParent">
+
+            <SeekBar
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="10"
+                android:progress="4"
+                android:id="@+id/seekBar"
+                android:layout_weight="1"/>
 
             <Button
                 android:id="@+id/start_button"
                 style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/start_stop_button"
                 android:onClick="onStartButtonClick"/>
 
         </LinearLayout>
+
     </FrameLayout>
 
 </FrameLayout>

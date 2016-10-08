@@ -1,14 +1,19 @@
 package com.cousineau.darren.notename;
 
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
+
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -25,6 +30,21 @@ public class NoteScreen extends AppCompatActivity {
     private Handler noteUpdateHandler = new Handler();
 
     private int mNoteInterval = 5000;
+
+    private SeekBar mSeekBar;
+
+    private SeekBar.OnSeekBarChangeListener mIntervalChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            mNoteInterval = progress * 1000;
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {}
+    };
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -120,8 +140,10 @@ public class NoteScreen extends AppCompatActivity {
         findViewById(R.id.start_button).setOnTouchListener(mDelayHideTouchListener);
 
         mStartButton = (Button) findViewById(R.id.start_button);
-
         mScreen = (TextView) findViewById(R.id.fullscreen_content);
+        mSeekBar = (SeekBar) findViewById(R.id.seekBar);
+        mSeekBar.setOnSeekBarChangeListener(mIntervalChangeListener);
+        mNoteInterval = mSeekBar.getProgress() * 1000;
     }
 
     @Override
@@ -192,7 +214,12 @@ public class NoteScreen extends AppCompatActivity {
 
     public void changeNote() {
         Note current = new Note();
-        mScreen.setText(current.toString());
+        if (isRunning) {
+            mScreen.setText(current.toString());
+        }
+       /* int resID=getResources().getIdentifier(current.toString().toLowerCase() + ".wav", "raw", getPackageName());
+        MediaPlayer mediaPlayer= MediaPlayer.create(this,resID);
+        mediaPlayer.start();*/
     }
 
     private Runnable runnable = new Runnable() {
